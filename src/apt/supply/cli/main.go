@@ -49,7 +49,7 @@ func main() {
 		os.Exit(13)
 	}
 
-	if exists, err := libbuildpack.FileExists(filepath.Join(stager.BuildDir(), "apt.yml")); err != nil {
+	if exists, err := libbuildpack.FileExists(filepath.Join("./target/", "apt.yml")); err != nil {
 		logger.Error("Unable to test existence of apt.yml: %s", err.Error())
 		os.Exit(16)
 	} else if !exists {
@@ -61,7 +61,7 @@ func main() {
 	}
 
 	command := &libbuildpack.Command{}
-	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
+	a := apt.New(command, filepath.Join("./target/", "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
 		os.Exit(13)
