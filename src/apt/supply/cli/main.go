@@ -49,6 +49,8 @@ func main() {
 		os.Exit(13)
 	}
 
+	logger.Error("stager.BuildDir() : %s", stagerBuildDir());
+	logger.Error("stager.DepDir() : %s", stagerDepDir());
 	if exists, err := libbuildpack.FileExists(filepath.Join("./target/", "apt.yml")); err != nil {
 		logger.Error("Unable to test existence of apt.yml: %s", err.Error())
 		os.Exit(16)
