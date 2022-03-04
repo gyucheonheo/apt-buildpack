@@ -29,7 +29,9 @@ func main() {
 
 	buildpackDir, err := libbuildpack.GetBuildpackDir()
 	logger.Error("buildPackDir : %s", buildpackDir)
-	logger.Error(os.Args)
+	for _, value := range os.Args {
+		fm.Printf("- %s\n", value)
+	}
 	if err != nil {
 		logger.Error("Unable to determine buildpack directory: %s", err.Error())
 		os.Exit(9)
