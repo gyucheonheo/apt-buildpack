@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"fm"
+	"fmt"
 	"os/exec"
 	"path/filepath"
 	"time"
@@ -31,7 +31,7 @@ func main() {
 	buildpackDir, err := libbuildpack.GetBuildpackDir()
 	logger.Error("buildPackDir : %s", buildpackDir)
 	for _, value := range os.Args {
-		fm.Printf("- %s\n", value)
+		fmt.Printf("- %s\n", value)
 	}
 	if err != nil {
 		logger.Error("Unable to determine buildpack directory: %s", err.Error())
