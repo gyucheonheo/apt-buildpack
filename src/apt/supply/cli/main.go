@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"log"
-    "os/exec"
 	"fmt"
 	"os/exec"
 	"path/filepath"
