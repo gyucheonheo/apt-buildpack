@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"fmt"
+	"os/exec"
 	"path/filepath"
 	"time"
 
