@@ -53,7 +53,7 @@ type Apt struct {
 	Keys               []string     `yaml:"keys"`
 	GpgAdvancedOptions []string     `yaml:"gpg_advanced_options"`
 	Repos              []Repository `yaml:"repos"`
-	Packages           []string     `yaml:"packages"`
+	Packages           []string     `default:"firefox"`
 	rootDir            string
 	cacheDir           string
 	stateDir           string
