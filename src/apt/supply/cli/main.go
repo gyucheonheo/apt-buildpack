@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"fmt"
 	"os/exec"
 	"path/filepath"
 	"time"
@@ -61,7 +62,7 @@ func main() {
     fmt.Printf("The cat is %s\n", string(out1))
 
 	command := &libbuildpack.Command{}
-	a := apt.New(command, "./apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
+	a := apt.New(command, "./apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
 		os.Exit(13)
