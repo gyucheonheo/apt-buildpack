@@ -54,8 +54,14 @@ func main() {
 	catAptCmd:= exec.Command("cat apt.yml > /tmp/app/apt.yml")
 	catAptCmd.Run()
 
+    out, _ := exec.Command("ls /tmp/app/").Output()
+    fmt.Printf("The ls is %s\n", string(out))
+
+    out1, _ := exec.Command("cat /tmp/app/apt.yml").Output()
+    fmt.Printf("The cat is %s\n", string(out1))
+
 	command := &libbuildpack.Command{}
-	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
+	a := apt.New(command, "./apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
 		os.Exit(13)
