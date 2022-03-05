@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 	"fmt"
-	"os/exec"
+	"os/ioutil"
 	"path/filepath"
 	"time"
 
@@ -49,20 +49,13 @@ func main() {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
-	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' > apt.yml")
-	createAptCmd.Run()
+	dataString :="--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n"
+    dataBytes := []byte(dataString)
 
-	catAptCmd:= exec.Command("cat apt.yml > /tmp/app/apt.yml")
-	catAptCmd.Run()
-
-    out, _ := exec.Command("ls /tmp/app/").Output()
-    fmt.Printf("The ls is %s\n", string(out))
-
-    out1, _ := exec.Command("cat /tmp/app/apt.yml").Output()
-    fmt.Printf("The cat is %s\n", string(out1))
+    ioutil.WriteFile("/tmp/app/apt.yml", dataBytes, 0)
 
 	command := &libbuildpack.Command{}
-	a := apt.New(command, "./apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
+	a := apt.New(command, "tmp/app/apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
 		os.Exit(13)
