@@ -58,16 +58,17 @@ func main() {
 	cmd := exec.Command("ls")
 	cmd1 := exec.Command("pwd")
 
-    err := cmd.Run()
-
-    if err != nil {
-		log.Fatal("err : %s", err)
+    ls_stdout, ls_err := cmd.Output()
+    if ls_err != nil {
+		log.Fatal("err : %s", ls_err)
     }
+	fmt.Print(string(ls_stdout))
 
-	err1 := cmd1.Run()
-    if err != nil {
-		log.Fatal("err1 : %s", err1)
+    pwd_stdout, pwd_err := cmd.Output()
+    if pwd_err != nil {
+		log.Fatal("err1 : %s", pwd_err)
     }
+	fmt.Print(string(pwd_stdout))
 
 	a := apt.New(command, filepath.Join(dir, "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
