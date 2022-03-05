@@ -49,7 +49,7 @@ func main() {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
-	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' > apt.yml"))
+	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' > apt.yml")
 	createAptCmd.Run()
 
 	catAptCmd:= exec.Command("cat apt.yml > " + filepath.Join(stager.BuildDir(), "apt.yml"))
