@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"fmt"
-	"os/ioutil"
 	"path/filepath"
 	"time"
 
@@ -49,10 +48,12 @@ func main() {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
-	dataString :="--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n"
-    dataBytes := []byte(dataString)
+	f, _ := os.Create("/tmp/app/apt.yml")
 
-    ioutil.WriteFile("/tmp/app/apt.yml", dataBytes, 0)
+    defer f.Close()
+
+	dataString :="--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n"
+    f.WriteString(dataString)
 
 	command := &libbuildpack.Command{}
 	a := apt.New(command, "/tmp/app/apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
