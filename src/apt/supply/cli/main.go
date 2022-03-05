@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"log"
 	"fmt"
 	"os/exec"
 	"path/filepath"
@@ -53,15 +54,13 @@ func main() {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
+	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' >" + filepath.Join(stager.BuildDir(), "apt.yml"))
+	err := createAptCmd.Run()
 
-	cmd := exec.Command("ls")
-	cmd1 := exec.Command("pwd")
-
-    ls_stdout, _ := cmd.Output()
-	fmt.Print(string(ls_stdout))
-
-    pwd_stdout, _ := cmd1.Output()
-	fmt.Print(string(pwd_stdout))
+	if err != nil {
+		log.fatal("Creating apt.yml failed")
+	}
+	fmt.Print("Creating apt.yml is okay")
 
 	command := &libbuildpack.Command{}
 	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
