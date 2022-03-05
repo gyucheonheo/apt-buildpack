@@ -55,7 +55,7 @@ func main() {
     ioutil.WriteFile("/tmp/app/apt.yml", dataBytes, 0)
 
 	command := &libbuildpack.Command{}
-	a := apt.New(command, "tmp/app/apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
+	a := apt.New(command, "/tmp/app/apt.yml", "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
 		os.Exit(13)
