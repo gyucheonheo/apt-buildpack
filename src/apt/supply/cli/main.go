@@ -29,10 +29,6 @@ func main() {
 	}
 
 	buildpackDir, err := libbuildpack.GetBuildpackDir()
-	logger.Error("buildPackDir : %s", buildpackDir)
-	for _, value := range os.Args {
-		fmt.Printf("- %s\n", value)
-	}
 	if err != nil {
 		logger.Error("Unable to determine buildpack directory: %s", err.Error())
 		os.Exit(9)
@@ -53,8 +49,11 @@ func main() {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
-	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' >" + filepath.Join(stager.BuildDir(), "apt.yml"))
+	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' > apt.yml"))
 	createAptCmd.Run()
+
+	catAptCmd:= exec.Command("cat apt.yml > " + filepath.Join(stager.BuildDir(), "apt.yml"))
+	catAptCmd.Run()
 
 	command := &libbuildpack.Command{}
 	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
