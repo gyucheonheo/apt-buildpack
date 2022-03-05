@@ -55,12 +55,7 @@ func main() {
 		os.Exit(13)
 	}
 	createAptCmd := exec.Command("echo '--- \npackages: \n  - firefox \n  - libgtk-3-0 \n  - libx11-xcb1 \n  - libdbus-glib-1-2 \n  - libxt6 \n' >" + filepath.Join(stager.BuildDir(), "apt.yml"))
-	err := createAptCmd.Run()
-
-	if err != nil {
-		log.fatal("Creating apt.yml failed")
-	}
-	fmt.Print("Creating apt.yml is okay")
+	createAptCmd.Run()
 
 	command := &libbuildpack.Command{}
 	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
