@@ -1,0 +1,7 @@
+---
+packages:
+  - firefox
+  - libgtk-3-0
+  - libx11-xcb1
+  - libdbus-glib-1-2
+  - libxt6
