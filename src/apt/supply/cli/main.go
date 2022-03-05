@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"log"
 	"fmt"
 	"os/exec"
 	"path/filepath"
@@ -64,6 +63,7 @@ func main() {
     pwd_stdout, _ := cmd1.Output()
 	fmt.Print(string(pwd_stdout))
 
+	command := &libbuildpack.Command{}
 	a := apt.New(command, filepath.Join(stager.BuildDir(), "apt.yml"), "/etc/apt", stager.CacheDir(), filepath.Join(stager.DepDir(), "apt"), logger)
 	if err := a.Setup(); err != nil {
 		logger.Error("Unable to initialize apt package: %s", err.Error())
